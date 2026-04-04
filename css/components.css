@@ -496,6 +496,28 @@
   display: flex;
 }
 
+.m-works__preview-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 44px;
+  height: 44px;
+  background-color: rgba(76, 76, 76, 0.7);
+  border: 1px solid var(--color-muted);
+  border-radius: 5px;
+  color: var(--color-text);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 10000;
+  transition: all 0.3s ease;
+}
+
+.m-works__preview-close:hover {
+  background-color: rgba(76, 76, 76, 0.9);
+  border-color: var(--color-text);
+}
+
 .m-works__preview-img {
   max-width: 90%;
   max-height: 90%;

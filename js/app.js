@@ -408,6 +408,8 @@
     let translateY = 0;
     let isDragging = false;
     let startX, startY;
+    let lastTouchDistance = 0;
+    let isMobileTouch = false; // 标记移动端触摸
 
     // 打开预览
     function openPreview(imgEl) {
@@ -417,7 +419,6 @@
       previewImg.alt = imgAlt;
       preview.classList.add('active');
       document.body.style.overflow = 'hidden';
-      // 重置缩放和位置
       scale = 1;
       translateX = 0;
       translateY = 0;
@@ -429,7 +430,6 @@
       preview.classList.remove('active');
       previewImg.src = '';
       document.body.style.overflow = '';
-      // 重置
       scale = 1;
       translateX = 0;
       translateY = 0;
@@ -441,10 +441,17 @@
       previewImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
     }
 
-    // 点击图片放大 - PC端
+    // 点击图片 - PC端（移动端触摸后300ms内跳过）
     document.addEventListener('click', function(e) {
+      if (isMobileTouch) return;
+
       // 点击预览图片关闭
-      if (e.target === previewImg && scale > 1) {
+      if (e.target === previewImg) {
+        closePreview();
+        return;
+      }
+      // 点击关闭按钮
+      if (e.target.classList.contains('m-works__preview-close')) {
         closePreview();
         return;
       }
@@ -459,7 +466,7 @@
       }
     });
 
-    // 鼠标滚轮缩放
+    // 鼠标滚轮缩放 - PC端
     preview.addEventListener('wheel', function(e) {
       e.preventDefault();
       const delta = e.deltaY > 0 ? 0.9 : 1.1;
@@ -467,7 +474,7 @@
       updateTransform();
     });
 
-    // 拖动图片
+    // PC端拖动
     previewImg.addEventListener('mousedown', function(e) {
       if (scale > 1) {
         isDragging = true;
@@ -490,16 +497,51 @@
       previewImg.style.cursor = scale > 1 ? 'grab' : 'default';
     });
 
-    // 移动端触摸预览
+    // 移动端：触摸打开预览
     document.addEventListener('touchend', function(e) {
       const target = e.target;
+      isMobileTouch = true;
+      setTimeout(function() { isMobileTouch = false; }, 300);
+
+      // 点击瀑布流图片打开预览
       if (target.tagName === 'IMG' && target.closest('.m-works__masonry-item')) {
-        e.preventDefault();
         openPreview(target);
       }
+      // 点击关闭按钮
+      if (target.classList.contains('m-works__preview-close')) {
+        closePreview();
+      }
+      // 点击预览区域关闭
       if (target === preview) {
         closePreview();
       }
+    });
+    preview.addEventListener('touchstart', function(e) {
+      if (e.touches.length === 2) {
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        lastTouchDistance = Math.sqrt(dx * dx + dy * dy);
+      }
+    });
+
+    preview.addEventListener('touchmove', function(e) {
+      if (e.touches.length === 2) {
+        e.preventDefault();
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (lastTouchDistance > 0) {
+          const ratio = distance / lastTouchDistance;
+          scale = Math.max(0.5, Math.min(scale * ratio, 5));
+          updateTransform();
+        }
+        lastTouchDistance = distance;
+      }
+    });
+
+    preview.addEventListener('touchend', function(e) {
+      lastTouchDistance = 0;
     });
 
     // ESC键关闭
