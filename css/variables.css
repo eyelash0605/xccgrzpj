@@ -1,0 +1,45 @@
+/* ============================================
+   CSS 变量定义 - 全站颜色、字体、尺寸配置
+   ============================================ */
+:root {
+  /* ---- 颜色变量 ---- */
+  --color-bg: #191919;           /* 深黑色 - 全局背景 */
+  --color-muted: #4c4c4c;         /* 中灰色 - 辅助元素 */
+  --color-text: #ffffff;          /* 纯白色 - 核心文字 */
+
+  /* ---- 透明度变体 ---- */
+  --opacity-high: 1;
+  --opacity-medium: 0.8;
+  --opacity-low: 0.6;
+  --opacity-lower: 0.4;
+
+  /* ---- 字体配置 ---- */
+  --font-family: "Microsoft YaHei", "微软雅黑", sans-serif;
+  --font-light: 300;
+  --font-regular: 400;
+  --font-bold: 700;
+
+  /* ---- 尺寸变量 ---- */
+  --viewport-width: 100vw;
+  --viewport-height: 100vh;
+  --content-max-width: 1440px;
+  --padding-top: 60px;
+
+  /* ---- 间距变量 ---- */
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 40px;
+  --space-xl: 80px;
+
+  /* ---- 层级变量 ---- */
+  --z-stage: 0;      /* 全屏舞台层 */
+  --z-bg: 1;        /* 背景层 */
+  --z-content: 10;  /* 内容层 */
+  --z-ui: 100;      /* 全局固定UI层 */
+
+  /* ---- 动效变量 ---- */
+  --transition-fast: 0.3s ease;
+  --transition-normal: 0.4s ease;
+  --transition-slow: 0.6s ease-out;
+}

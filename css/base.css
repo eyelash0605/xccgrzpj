@@ -1,0 +1,59 @@
+/* ============================================
+   基础样式 - 文字、排版通用设置
+   ============================================ */
+
+/* ---- 内置隐藏式滚动条 ---- */
+html {
+  overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* ---- 全局文字样式 ---- */
+.g-text-light {
+  font-weight: var(--font-light);
+}
+
+.g-text-regular {
+  font-weight: var(--font-regular);
+}
+
+.g-text-bold {
+  font-weight: var(--font-bold);
+}
+
+/* ---- 全局透明度文字 ---- */
+.g-text-muted {
+  color: var(--color-muted);
+}
+
+.g-text-primary {
+  color: var(--color-text);
+}
+
+/* ---- 全局字号 ---- */
+.g-fs-xs { font-size: 12px; }
+.g-fs-sm { font-size: 14px; }
+.g-fs-md { font-size: 16px; }
+.g-fs-lg { font-size: 20px; }
+.g-fs-xl { font-size: 28px; }
+.g-fs-2xl { font-size: 36px; }
+.g-fs-3xl { font-size: 48px; }
+.g-fs-4xl { font-size: 64px; }
+
+/* ---- 全局行高 ---- */
+.g-lh-tight { line-height: 1.2; }
+.g-lh-normal { line-height: 1.6; }
+.g-lh-loose { line-height: 2; }
+
+/* ---- 全局字间距 ---- */
+.g-ls-wide { letter-spacing: 0.1em; }
+.g-ls-wider { letter-spacing: 0.2em; }

@@ -1,0 +1,126 @@
+/* ============================================
+   布局样式 - 四层架构与页面布局
+   ============================================ */
+
+/* ---- 全屏舞台层 - 最外层容器 ---- */
+.g-stage {
+  position: relative;
+  width: var(--viewport-width);
+  height: var(--viewport-height);
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+/* ---- 背景层 - 承载背景装饰 ---- */
+.g-bg-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--z-bg);
+  pointer-events: none;
+}
+
+/* ---- 内容层 - 页面具体内容 ---- */
+.g-content-layer {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  z-index: var(--z-content);
+}
+
+/* ---- 内容容器 - 限制最大宽度并居中 ---- */
+.g-container {
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+/* ---- 页面模块 - 独立外层包裹 ---- */
+.g-section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--padding-top) 0;
+}
+
+/* ---- 短页面垂直居中 ---- */
+.g-section--centered {
+  align-items: center;
+}
+
+/* ---- 长页面顶部对齐 ---- */
+.g-section--top {
+  align-items: flex-start;
+}
+
+/* ---- 全局固定UI层 - 浮在所有内容之上 ---- */
+.g-ui-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--z-ui);
+  pointer-events: none;
+}
+
+/* ---- 全局UI层内的交互元素 ---- */
+.g-ui-layer > * {
+  pointer-events: auto;
+}
+
+/* ============================================
+   模块内部布局 - 仅相对父容器定位
+   ============================================ */
+
+/* ---- 模块包裹器 ---- */
+.m-wrapper {
+  width: 100%;
+}
+
+/* ---- 模块标题区 ---- */
+.m-header {
+  margin-bottom: var(--space-xl);
+}
+
+/* ---- 模块主标题 ---- */
+.m-title {
+  font-size: 48px;
+  font-weight: var(--font-bold);
+  margin-bottom: var(--space-sm);
+}
+
+/* ---- 模块副标题 ---- */
+.m-subtitle {
+  font-size: 16px;
+  font-weight: var(--font-light);
+  color: var(--color-muted);
+  letter-spacing: 0.1em;
+}
+
+/* ---- 模块内容区 ---- */
+.m-body {
+  /* 内容区样式 */
+}
+
+/* ============================================
+   Flexbox 辅助工具类
+   ============================================ */
+.g-flex { display: flex; }
+.g-flex-col { flex-direction: column; }
+.g-flex-center { align-items: center; justify-content: center; }
+.g-flex-between { justify-content: space-between; }
+.g-flex-wrap { flex-wrap: wrap; }
+.g-flex-1 { flex: 1; }
+
+/* ---- 网格布局辅助 ---- */
+.g-grid { display: grid; }
+.g-gap-sm { gap: var(--space-sm); }
+.g-gap-md { gap: var(--space-md); }
+.g-gap-lg { gap: var(--space-lg); }
