@@ -403,17 +403,15 @@
 
     if (!preview || !previewImg) return;
 
-    // 点击图片放大
-    document.addEventListener('click', function(e) {
-      if (e.target.tagName === 'IMG' && e.target.closest('.m-works__masonry-item')) {
-        const imgSrc = e.target.src;
-        const imgAlt = e.target.alt || '预览图片';
-        previewImg.src = imgSrc;
-        previewImg.alt = imgAlt;
-        preview.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      }
-    });
+    // 打开预览
+    function openPreview(imgEl) {
+      const imgSrc = imgEl.src;
+      const imgAlt = imgEl.alt || '预览图片';
+      previewImg.src = imgSrc;
+      previewImg.alt = imgAlt;
+      preview.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
 
     // 关闭预览
     function closePreview() {
@@ -422,9 +420,25 @@
       document.body.style.overflow = '';
     }
 
-    // 点击遮罩关闭
-    preview.addEventListener('click', function(e) {
+    // 点击图片放大 - PC端
+    document.addEventListener('click', function(e) {
+      if (e.target.tagName === 'IMG' && e.target.closest('.m-works__masonry-item')) {
+        openPreview(e.target);
+      }
+      // 点击遮罩关闭
       if (e.target === preview) {
+        closePreview();
+      }
+    });
+
+    // 移动端触摸预览
+    document.addEventListener('touchend', function(e) {
+      const target = e.target;
+      if (target.tagName === 'IMG' && target.closest('.m-works__masonry-item')) {
+        e.preventDefault();
+        openPreview(target);
+      }
+      if (target === preview) {
         closePreview();
       }
     });
