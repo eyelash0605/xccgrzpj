@@ -403,6 +403,12 @@
 
     if (!preview || !previewImg) return;
 
+    let scale = 1;
+    let translateX = 0;
+    let translateY = 0;
+    let isDragging = false;
+    let startX, startY;
+
     // 打开预览
     function openPreview(imgEl) {
       const imgSrc = imgEl.src;
@@ -411,6 +417,11 @@
       previewImg.alt = imgAlt;
       preview.classList.add('active');
       document.body.style.overflow = 'hidden';
+      // 重置缩放和位置
+      scale = 1;
+      translateX = 0;
+      translateY = 0;
+      updateTransform();
     }
 
     // 关闭预览
@@ -418,17 +429,65 @@
       preview.classList.remove('active');
       previewImg.src = '';
       document.body.style.overflow = '';
+      // 重置
+      scale = 1;
+      translateX = 0;
+      translateY = 0;
+      updateTransform();
+    }
+
+    // 更新transform
+    function updateTransform() {
+      previewImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
     }
 
     // 点击图片放大 - PC端
     document.addEventListener('click', function(e) {
+      // 点击预览图片关闭
+      if (e.target === previewImg && scale > 1) {
+        closePreview();
+        return;
+      }
+      // 点击预览区域关闭
+      if (e.target === preview) {
+        closePreview();
+        return;
+      }
+      // 点击瀑布流图片打开
       if (e.target.tagName === 'IMG' && e.target.closest('.m-works__masonry-item')) {
         openPreview(e.target);
       }
-      // 点击遮罩关闭
-      if (e.target === preview) {
-        closePreview();
+    });
+
+    // 鼠标滚轮缩放
+    preview.addEventListener('wheel', function(e) {
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? 0.9 : 1.1;
+      scale = Math.max(0.5, Math.min(scale * delta, 5));
+      updateTransform();
+    });
+
+    // 拖动图片
+    previewImg.addEventListener('mousedown', function(e) {
+      if (scale > 1) {
+        isDragging = true;
+        startX = e.clientX - translateX;
+        startY = e.clientY - translateY;
+        previewImg.style.cursor = 'grabbing';
       }
+    });
+
+    document.addEventListener('mousemove', function(e) {
+      if (isDragging) {
+        translateX = e.clientX - startX;
+        translateY = e.clientY - startY;
+        updateTransform();
+      }
+    });
+
+    document.addEventListener('mouseup', function() {
+      isDragging = false;
+      previewImg.style.cursor = scale > 1 ? 'grab' : 'default';
     });
 
     // 移动端触摸预览
